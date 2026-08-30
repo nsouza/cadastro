@@ -1,0 +1,28 @@
+# Ambientes virtuais
+.venv/
+env/
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd 
+
+
+# Arquivos de configuração sensíveis
+*.env
+*.log
+
+# IDEs e editores
+.vscode/
+.idea/
+
+# Arquivos temporários
+*.tmp
+*.swp
+*.bak
+
+# Arquivos de estilo gerados
+*.css
+*.sass
+*.scss
