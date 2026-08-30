@@ -20,12 +20,12 @@ def aplicar_estilo(root: tk.Tk):
     style.configure("TLabelframe.Label", font=("Segoe UI Semibold", 10))
     style.configure("Treeview.Heading", font=("Segoe UI", 10))
   
-def aplicar_zebra(treeview: ttk.Treeview):
+def aplicar_zebra_treeview(treeview: ttk.Treeview):
     treeview.tag_configure("oddrow", background="#F7F7F7")
     treeview.tag_configure("evenrow", background="#ffffff")   
 
 
-def preecher_treeview(treeview: ttk.Treeview, rows):
+def preecher_treeview_com_zebra(treeview: ttk.Treeview, rows):
     for i in treeview.get_children():
         treeview.delete(i)
 

@@ -1,31 +1,38 @@
 import sqlite3
 from config import DB_CONFIG
 
-def conectar():
-    return sqlite3.connect(DB_CONFIG["database"])
 
-def criar_banco_e_tabela():
-    conn = conectar()
+def conectar(usar_banco: bool = False) -> sqlite3.Connection | None:
+    """
+    Cria conexão com o banco SQLite definido em config.py
+    """
+    if usar_banco:
+        return sqlite3.connect(DB_CONFIG["database"])
+    else:
+        return None
+
+
+def criar_banco_e_tabela() -> None:
+    """
+    Cria a tabela 'pessoas' caso não exista
+    """
+    conn = conectar(usar_banco=True)
+    if conn is None:
+        raise RuntimeError("Não foi possível conectar ao banco de dados.")
+
     cursor = conn.cursor()
-    
-    # Exemplo de criação de tabela
+
     cursor.execute(
-        f"""
-        CREATE TABLE IF NOT EXISTS {DB_CONFIG["database"]} " 
-        "DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
-        """)
-    
-    # Exemplo de criação de tabela
-    cursor.execute(
-        f"""
-            CREATE TABLE IF NOT EXISTS {DB_CONFIG["database"]} (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome VARCHAR(255) NOT NULL,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                telefone VARCHAR(20) NOT NULL
-                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-        """)
-    
+        """
+        CREATE TABLE IF NOT EXISTS pessoas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            telefone TEXT NOT NULL,
+            criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+
     conn.commit()
     conn.close()
